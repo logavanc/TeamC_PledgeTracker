@@ -1,0 +1,74 @@
+package teamc_pledgetracker;
+
+import java.util.List;
+
+/**
+ *
+ * @author leverett
+ */
+public class DAL {
+    public enum StorageType {
+        MEMORY, FILE, DATABASE
+    }
+    private IDAL m_iDAL;
+    private boolean bClosed = false;
+    
+    public DAL (){
+        init(StorageType.MEMORY); //Default Week 1
+    }
+    public DAL (StorageType storageType) {
+        init(storageType);
+    }
+    
+    private void init(StorageType storageType) {
+        switch (storageType) {
+            case MEMORY:
+                m_iDAL = new MemoryDAL();
+                break;
+            case FILE:
+                break;
+            case DATABASE:
+                break;
+            default:
+                //error
+                break;
+        }
+    }
+    
+    public boolean SavePledge(Pledge pledge)
+    {
+        m_iDAL.saveData(pledge);
+        return true;
+    }
+    
+    public List<DAL.Pledge> GetPledges(){
+        return m_iDAL.getData();
+    }
+    
+    public void close() {
+        m_iDAL.close();
+        m_iDAL = null;
+        bClosed = true;
+    }
+    
+    @Override
+    protected void finalize() throws Throwable {
+    try{
+        if (!bClosed){
+            close();
+        }
+    }
+    catch(Throwable t){
+        throw t;
+    }finally{
+        super.finalize();
+    }
+}
+    
+    //Temp until Pledge Class is written
+    public class Pledge {
+        public String sName;
+        public String sCharity;
+        public int iPledge;
+    }
+}
