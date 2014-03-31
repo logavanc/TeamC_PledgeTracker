@@ -26,8 +26,10 @@ public class DAL {
                 m_iDAL = new MemoryDAL();
                 break;
             case FILE:
+                m_iDAL = new FileDAL();
                 break;
             case DATABASE:
+                m_iDAL = new DatabaseDAL();
                 break;
             default:
                 //error
