@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class MemoryDAL implements IDAL {
 
-    private List<DAL.Pledge> m_pledges;
+    private List<Pledge> m_pledges;
     
     @Override
     public boolean init() {
@@ -18,13 +18,13 @@ public class MemoryDAL implements IDAL {
     }
 
     @Override
-    public boolean saveData(DAL.Pledge pledge) {
+    public boolean saveData(Pledge pledge) {
         m_pledges.add(pledge);
         return true;
     }
 
     @Override
-    public List<DAL.Pledge> getData() {
+    public List<Pledge> getData() {
         return m_pledges;
     }
 

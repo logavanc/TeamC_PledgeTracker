@@ -10,9 +10,9 @@ public interface IDAL {
     
     boolean init();
 
-    boolean saveData(DAL.Pledge pledge);
+    boolean saveData(Pledge pledge);
 
-    List<DAL.Pledge> getData();
+    List<Pledge> getData();
 
     void close();    
 }

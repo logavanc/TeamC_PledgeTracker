@@ -43,7 +43,7 @@ public class DAL {
         return true;
     }
     
-    public List<DAL.Pledge> GetPledges(){
+    public List<Pledge> GetPledges(){
         return m_iDAL.getData();
     }
     
@@ -55,22 +55,15 @@ public class DAL {
     
     @Override
     protected void finalize() throws Throwable {
-    try{
-        if (!bClosed){
-            close();
+        try{
+            if (!bClosed){
+                close();
+            }
         }
-    }
-    catch(Throwable t){
-        throw t;
-    }finally{
-        super.finalize();
-    }
-}
-    
-    //Temp until Pledge Class is written
-    public class Pledge {
-        public String sName;
-        public String sCharity;
-        public int iPledge;
+        catch(Throwable t){
+            throw t;
+        }finally{
+            super.finalize();
+        }
     }
 }

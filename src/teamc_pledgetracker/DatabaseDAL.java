@@ -1,7 +1,6 @@
 package teamc_pledgetracker;
 
 import java.util.List;
-import teamc_pledgetracker.DAL.Pledge;
 
 /**
  *
