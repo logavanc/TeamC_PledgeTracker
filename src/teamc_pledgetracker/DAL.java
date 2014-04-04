@@ -35,6 +35,9 @@ public class DAL {
                 //error
                 break;
         }
+        if (!m_iDAL.init()) {
+            System.out.println("Unable to initialize DAL of type "+storageType.name());
+        }
     }
     
     public boolean SavePledge(Pledge pledge)
