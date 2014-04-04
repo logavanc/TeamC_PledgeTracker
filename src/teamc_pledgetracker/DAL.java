@@ -32,7 +32,7 @@ public class DAL {
                 m_iDAL = new DatabaseDAL();
                 break;
             default:
-                //error
+                m_iDAL = new MemoryDAL(); //default
                 break;
         }
         if (!m_iDAL.init()) {
