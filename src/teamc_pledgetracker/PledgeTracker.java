@@ -40,6 +40,7 @@ package teamc_pledgetracker;
 //
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -165,6 +166,7 @@ public class PledgeTracker extends JFrame
 
         donateButton = new JButton("Donate");
 
+        Arrays.sort(charityNames);
         charityComboBox = new JComboBox(charityNames);
         nameTextField = new JTextField();
 
