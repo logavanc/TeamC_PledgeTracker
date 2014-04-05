@@ -55,10 +55,25 @@ public class PledgeTracker extends JFrame
     };
 
     String[] charityNames = {
-            "Charity A",
-            "Charity B",
-            "Charity C",
-            "Charity D",
+        "Wounded Warrior Project",
+        "American Red Cross",
+        "Doctors Without Borders",
+        "St. Jude Children's Research Hospital",
+        "World Vision",
+        "Save the Children",
+        "American Cancer Society",
+        "American Society for the Prevention of Cruelty to Animals",
+        "Disabled American Veterans",
+        "Charitable Service Trust",
+        "United Way",
+        "Salvation Army",
+        "American Cancer Society",
+        "Food for the Poor",
+        "YMCA of the USA",
+        "Feed the Children",
+        "AmeriCares Foundation",
+        "Catholic Charities USA",
+        "Gifts in Kind International"
     };
 
     private JPanel mainPanel;
