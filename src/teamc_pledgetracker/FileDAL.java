@@ -1,6 +1,11 @@
 package teamc_pledgetracker;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -8,24 +13,57 @@ import java.util.List;
  */
 public class FileDAL implements IDAL {
 
+    private String mFile;  
+            
     @Override
     public boolean init() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        mFile = "PledgeTracker.txt";
+        return true;
     }
 
     @Override
     public boolean saveData(Pledge pledge) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        boolean bRet = true;
+        try {
+            addPledgeToFile(pledge.getName(), pledge.getCharity(), Integer.toString(pledge.getPledgeamt()));
+        }
+        catch (Exception e) {
+            bRet = false;
+        }
+        return bRet;
     }
 
     @Override
     public List<Pledge> getData() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<Pledge> Pledges = new ArrayList<>();
+        File file = new File(mFile);
+        try (Scanner inFile = new Scanner(file)) {
+            while (inFile.hasNextLine()) {
+                String[] sPledge = inFile.nextLine().split(";");
+                Pledges.add(new Pledge(sPledge[0], sPledge[1], Integer.parseInt(sPledge[2])));
+            }
+            inFile.close();
+        }
+        catch (Exception e) {
+            System.out.println("Unable to initialize file for reading. Exception: "+e.getMessage());
+        }
+        return Pledges;        
     }
 
     @Override
     public void close() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    private void addPledgeToFile(String sName, String Charity, String sAmount) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(sName).append(";").append(Charity).append(";").append(sAmount);
+        try (PrintWriter file = new PrintWriter(new FileOutputStream(mFile, true))) {
+            file.println(sb.toString());
+            file.close();
+        }
+        catch (Exception e) {
+            System.out.println("Exception saving Pledge to file: "+e.getMessage());
+        }        
     }
     
 }
