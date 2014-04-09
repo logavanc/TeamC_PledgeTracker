@@ -13,11 +13,11 @@ import java.util.Scanner;
  */
 public class FileDAL implements IDAL {
 
-    private String mFile;  
+    private static final String mFile = "PledgeTracker.txt";
+    private static final String mSeperator = ";";
             
     @Override
     public boolean init() {
-        mFile = "PledgeTracker.txt";
         return true;
     }
 
@@ -25,7 +25,10 @@ public class FileDAL implements IDAL {
     public boolean saveData(Pledge pledge) {
         boolean bRet = true;
         try {
-            addPledgeToFile(pledge.getName(), pledge.getCharity(), Integer.toString(pledge.getPledgeamt()));
+            addPledgeToFile(
+                pledge.getName(),
+                pledge.getCharity(),
+                Integer.toString(pledge.getPledgeamt()));
         }
         catch (Exception e) {
             bRet = false;
@@ -39,7 +42,7 @@ public class FileDAL implements IDAL {
         File file = new File(mFile);
         try (Scanner inFile = new Scanner(file)) {
             while (inFile.hasNextLine()) {
-                String[] sPledge = inFile.nextLine().split(";");
+                String[] sPledge = inFile.nextLine().split(mSeperator);
                 Pledges.add(new Pledge(sPledge[0], sPledge[1], Integer.parseInt(sPledge[2])));
             }
             inFile.close();
@@ -56,7 +59,7 @@ public class FileDAL implements IDAL {
     
     private void addPledgeToFile(String sName, String Charity, String sAmount) {
         StringBuilder sb = new StringBuilder();
-        sb.append(sName).append(";").append(Charity).append(";").append(sAmount);
+        sb.append(sName).append(mSeperator).append(Charity).append(mSeperator).append(sAmount);
         try (PrintWriter file = new PrintWriter(new FileOutputStream(mFile, true))) {
             file.println(sb.toString());
             file.close();
