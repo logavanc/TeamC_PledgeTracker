@@ -14,7 +14,7 @@ public class DAL {
     private boolean bClosed = false;
     
     public DAL (){
-        init(StorageType.MEMORY); //Default Week 1
+        init(StorageType.FILE); //Default Week 4
     }
     public DAL (StorageType storageType) {
         init(storageType);
