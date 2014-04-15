@@ -48,6 +48,7 @@ import javax.swing.table.DefaultTableModel;
 public class PledgeTracker extends JFrame
 {
     DAL dal;
+    private Popup tooltipPopup;
 
     String[] colNames = {
             "Philanthropist Name",
@@ -220,21 +221,71 @@ public class PledgeTracker extends JFrame
                 }
         );
     }
+    
+    private void showTooltip(int seconds) {
+      tooltipPopup.show();
+      javax.swing.Timer t= new javax.swing.Timer(seconds*1000, new ActionListener() {
+          @Override
+        public void actionPerformed(ActionEvent e) {
+       tooltipPopup.hide(); // disposes of the popup.
+        }
+      });
+      t.setRepeats(false);
+      t.start();
+    }
+    
+    private boolean ValidateFields() {
+        boolean bRet = false;
+        JTextField tf =  ((JSpinner.DefaultEditor)charitySpinner.getEditor()).getTextField();           
+        String name = nameTextField.getText();
+        if (name.length() <= 0) {
+            return bRet;
+        }
+        Integer amount = (Integer)charitySpinner.getValue();
+        if (amount <= 0) {
+            tf.setBackground(Color.RED);                  
+            tf.requestFocusInWindow();
+            final PopupFactory popupFactory = PopupFactory.getSharedInstance();
+            final JToolTip toolTip = new JToolTip();
+            toolTip.setTipText("You must enter a valid donation.");
+            tooltipPopup = popupFactory.getPopup(tf, toolTip,
+                     tf.getLocationOnScreen().x +10,
+                     tf.getLocationOnScreen().y +25);
+            showTooltip(5);
+            return bRet;
+        }
+        bRet = true;
+        return bRet;
+    }
+    
+    private void ClearFields() {
+        nameTextField.setText("");
+        charitySpinner.setValue(new Integer("0"));
+        charityComboBox.setSelectedIndex(0);
+    }
 
     ActionListener do_donate = new ActionListener()
     {
         @Override
         public void actionPerformed(ActionEvent event)
         {
+            //reset background to white in case it was red for invalid entry
+            JTextField tf =  ((JSpinner.DefaultEditor)charitySpinner.getEditor()).getTextField();
+            tf.setBackground(Color.WHITE);
+            //check entered data for validity
+            if (!ValidateFields()) {
+                return;
+            }
+            
             String name = nameTextField.getText();
-            Integer amount = (Integer)charitySpinner.getValue();
+            Integer amount = (Integer)charitySpinner.getValue();          
             String charity = charityComboBox.getSelectedItem().toString();
-
             Pledge pledge = new Pledge(name, charity, amount);
 
             if (dal.SavePledge(pledge))
             {
                 add_pledge_to_table(pledge);
+                ClearFields();
             }
             else
             {
